@@ -1,5 +1,5 @@
 (unless bound!download-dir*
-  (= download-dir* (homedir "download-cache")))
+  (= download-dir* (homedir "hackinator")))
 
 (def relpathfor (url)
   (or (begins-rest "http://" url)
@@ -15,7 +15,7 @@
 
 (def download (url)
   (iflet relpath (relpathfor url)
-    (ret file (+ download-dir* "/" (relpathfor url))
+    (ret file (+ download-dir* "/web-cache/" (relpathfor url))
       (unless (file-exists file)
         (system* "/usr/bin/wget"
                  "--no-verbose"
@@ -24,6 +24,6 @@
                  ;; wget appears to be confused by github's "*.github.com"
                  ;; certificate, rather unfortunately
                  "--no-check-certificate"
-                 "--directory-prefix" download-dir*
+                 "--directory-prefix" (string download-dir* "/web-cache")
                  url)))
     url))

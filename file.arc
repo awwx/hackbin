@@ -18,4 +18,3 @@
   (let n (filepart path)
     (aif (lastpos n #\.)
           (cut n (+ it 1)))))
-

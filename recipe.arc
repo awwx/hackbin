@@ -159,7 +159,7 @@
       (apply system*
        (+ (if (mem [in _ 'rlwrap "rlwrap"] recipe) ; todo
               '("/usr/bin/rlwrap" "-q" "\""))
-          (list "/home/andrew/racket-5.0.2/bin/racket"
+          (list (trim (tostring (system "which racket")))
                 (string destdir "/" (executable-file))))))))
 
 (def solve (recipe)
