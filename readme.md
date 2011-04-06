@@ -6,8 +6,8 @@ with:
 
 Github pull requests for the hackinator should not be made against
 this repo since it is created automatically from the hackinator
-source; instead pull requests should be made against the [hack source
-repository](https://github.com/awwx/hack).
+source; instead pull requests should be made against the [hackinator
+source repository](https://github.com/awwx/hack).
 
 See the [hackinator readme](https://github.com/awwx/hack#readme) for
 installation instructions.
