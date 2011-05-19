@@ -37,10 +37,13 @@
 ; leave off the ".recipe" extension
 
 (def recipe-file (n)
-  (or (is (file-extension n) "recipe")
+  (or (in (file-extension n) "recipe" "hack")
       (and (local-file? n)
            (in (simple-file-extension n) nil "recipe"))))
        
+(def technique-file (n)
+  (is (file-extension n) "technique"))
+
 (def absolutize-file (basedir hack)
   (if (relative-file hack)
        (do (unless basedir (err "unable to resolve relative file without base dir" hack))
@@ -56,6 +59,8 @@
 (def apply-wanted (hack)
   (if (recipe-file string.hack)
        (load-recipe-file (full-path basedir* string.hack))
+      (technique-file string.hack)
+       (load-technique (full-path basedir* string.hack))
        (wanted hack)))
 
 (def apply-datum (datum)
@@ -81,3 +86,13 @@
     (w/basedir* (dirpart (full-path basedir* hack))
       (each x (readfile (source-file hack))
         (apply-datum x)))))
+
+(def load-technique (file)
+  (let source (source-file file basedir*)
+    (w/basedir* (dirpart (full-path basedir* file))
+      (map add-statement (loadval source)))))
+
+(def technique (file)
+  (let source (source-file file basedir*)
+    (w/basedir* (dirpart (full-path basedir* source))
+      (loadval source))))

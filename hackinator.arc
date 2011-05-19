@@ -14,21 +14,24 @@
 (= action 'run)
 (wipe clean)
 (wipe update-repos*)
+(wipe no-implicit*)
 
 (while args
   (let arg (next)
     (if (begins arg "-")
          (let arg (trim arg 'front #\-)
            (case arg
-             "destdir" (= destdir (neednext))
-             "apply"   (= action 'apply)
-             "solve"   (= action 'solve)
-             "clean"   (set clean)
-             "update"  (set update-repos*)
-                       (err "unknown option" arg)))
-         (push arg hacks-wanted))))
+             "destdir"     (= destdir (neednext))
+             "apply"       (= action 'apply)
+             "solve"       (= action 'solve)
+             "clean"       (set clean)
+             "update"      (set update-repos*)
+             "no-implicit" (set no-implicit*)
+                           (err "unknown option" arg)))
+         (push (read arg) hacks-wanted))))
 
-(background (full-path srcdir* "kb.recipe"))
+(unless no-implicit*
+  (background (full-path srcdir* "kb.recipe")))
 
 (def welcome ()
   (prn "The hackinator is at your service."))
